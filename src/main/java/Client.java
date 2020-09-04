@@ -27,6 +27,7 @@ public class Client {
      * <bold>D'Agostino-Pearson</bold>
      * It's less powerful than Shapiro-Wilk.
      * <bold>Type: Normality Test</bold>
+     * <p>
      *
      * @param path_csv_file      load data
      * @param significance_level Probability of rejecting a null hypothesis when it is true.
@@ -41,6 +42,7 @@ public class Client {
     /**
      * <bold>Shapiro-Wilk</bold>
      * The best of the three methods, especially for samples of less than 30 elements.
+     * <p>
      * <bold>Type: Normality Test</bold>
      *
      * @param path_csv_file      load data
@@ -57,6 +59,7 @@ public class Client {
     /**
      * <bold>Kolmogorov-Smirnov</bold>
      * The less powerful.
+     * <p>
      * <bold>Type: Normality Test</bold>
      *
      * @param path_csv_file      load data
@@ -69,14 +72,6 @@ public class Client {
         return getMap(path_csv_file, end_point);
     }
 
-    public static void main(String[] args) {
-        String path = "src/main/resources/Toxina-Friedman-min3.csv";
-        System.out.println("Kolmogorov-Smirnov: " + Client.KOLMOGOROV(path, SIGNIFICANCE_LEVEL[3]));
-        System.out.println("Agostino: " + Client.AGOSTINO(path, SIGNIFICANCE_LEVEL[3]));
-        System.out.println("Shapiro: " + Client.SHAPIRO(path, SIGNIFICANCE_LEVEL[3]));
-
-
-    }
 
     private static String transform_to_json(String path_csv_file) throws IOException {
         Table table = Table.read().csv(path_csv_file);
