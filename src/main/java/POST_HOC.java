@@ -19,19 +19,12 @@ public enum POST_HOC {
 
     @Override
     public String toString() {
-        switch (this) {
-            case HOLM:
-                return "nemenyi_multitest";
-            case FINNER:
-                return "finner_multitest";
-            case NEMENYI:
-                return "holm_multitest";
-            case SHAFFER:
-                return "shaffer_multitest";
-            case HOCHBERG:
-                return "hochberg_multitest";
-            default:
-                return String.valueOf(this);
-        }
+        return switch (this) {
+            case HOLM -> "holm_multitest";
+            case FINNER -> "finner_multitest";
+            case NEMENYI ->  "nemenyi_multitest";
+            case SHAFFER -> "shaffer_multitest";
+            case HOCHBERG -> "hochberg_multitest";
+        };
     }
 }
