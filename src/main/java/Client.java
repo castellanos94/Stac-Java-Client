@@ -25,6 +25,7 @@ public class Client {
 
     /**
      * <bold>D'Agostino-Pearson</bold>
+     * <p>
      * It's less powerful than Shapiro-Wilk.
      * <p>
      * <bold>Type: Parametric Test</bold>
@@ -44,6 +45,7 @@ public class Client {
 
     /**
      * <bold>Shapiro-Wilk</bold>
+     * <p>
      * The best of the three methods, especially for samples of less than 30 elements.
      * <p>
      * <bold>Type: Parametric Test</bold>
@@ -64,6 +66,7 @@ public class Client {
 
     /**
      * <bold>Kolmogorov-Smirnov</bold>
+     * <p>
      * The less powerful.
      * <p>
      * <bold>Type: Parametric Test</bold>
@@ -83,6 +86,7 @@ public class Client {
 
     /**
      * <bold>ANOVA between cases</bold>
+     * <p>
      * Tests the null hypothesis that the means of the results of two or more groups are the same. For this, the test
      * analyzes the variation between samples as well as their inner variation with the variance. The statistic of the ANOVA test, is estimated by the f-distribution.
      * <p>
@@ -102,6 +106,7 @@ public class Client {
 
     /**
      * <bold>ANOVA WITHIN CASES</bold>
+     * <p>
      * Tests the null hypothesis that the means of the results of two or more groups are the same. For this, the test
      * analyzes the variation between samples as well as their inner variation with the variance. The statistic of the ANOVA test, is estimated by the f-distribution.
      * <p>
@@ -122,6 +127,7 @@ public class Client {
 
     /**
      * <bold>Friedman</bold>
+     * <p>
      * This test makes comparisons and assigns rankings to each data set. The statistic follows a chis-quared
      * distribution with K−1 degrees of freedom, being K the number of related variables (or number of algorithms).
      * <p>
@@ -133,6 +139,7 @@ public class Client {
      * @param path_csv_file      load data
      * @param significance_level Probability of rejecting a null hypothesis when it is true.
      *                           Also known as confidence level or Type I error (false positive)
+     * @param post_hoc           Post-hoc multiple comparison
      * @return Map object response
      */
     public static Map<String, Object> FRIEDMAN(String path_csv_file, double significance_level, POST_HOC post_hoc) {
@@ -141,6 +148,7 @@ public class Client {
 
     /**
      * <bold>Friedman Aligned Ranks</bold>
+     * <p>
      * It makes comparisons an assigns rankings considering all the data sets. It is usually employed when the number
      * of algorithms in the comparison is low
      * <p>
@@ -152,6 +160,7 @@ public class Client {
      * @param path_csv_file      load data
      * @param significance_level Probability of rejecting a null hypothesis when it is true.
      *                           Also known as confidence level or Type I error (false positive)
+     * @param post_hoc           Post-hoc multiple comparison
      * @return Map object response
      */
     public static Map<String, Object> FRIEDMAN_ALIGNED_RANK(String path_csv_file, double significance_level, POST_HOC post_hoc) {
@@ -161,6 +170,7 @@ public class Client {
 
     /**
      * <bold>Quade</bold>
+     * <p>
      * Similar to ImanDavenport, only that it takes into account that some problems are more difficult or that the
      * results obtained from different algorithms present higher discrepancies (weighting).
      * <p>
@@ -172,6 +182,7 @@ public class Client {
      * @param path_csv_file      load data
      * @param significance_level Probability of rejecting a null hypothesis when it is true.
      *                           Also known as confidence level or Type I error (false positive)
+     * @param post_hoc           Post-hoc multiple comparison
      * @return Map object response
      */
     public static Map<String, Object> QUADE(String path_csv_file, double significance_level, POST_HOC post_hoc) {
