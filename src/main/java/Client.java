@@ -189,6 +189,7 @@ public class Client {
         return getMap(path_csv_file, "quade/" + post_hoc + "/" + significance_level);
     }
 
+    @SuppressWarnings({"rawtypes", "unchecked"})
     private static String transform_to_json(String path_csv_file) throws IOException {
         Table table = Table.read().csv(path_csv_file);
         HashMap<String, ArrayList> data = new HashMap<>();
@@ -199,7 +200,7 @@ public class Client {
 
     }
 
-
+    @SuppressWarnings("unchecked")
     private static Map<String, Object> getMap(String path_csv_file, String end_point) {
         try {
             String content = transform_to_json(path_csv_file);
