@@ -82,6 +82,64 @@ public class Client {
     }
 
     /**
+     * <bold>ANOVA between cases</bold>
+     * Tests the null hypothesis that the means of the results of two or more groups are the same. For this, the test
+     * analyzes the variation between samples as well as their inner variation with the variance. The statistic of the ANOVA test, is estimated by the f-distribution.
+     * <p>
+     * <bold>Type:Parametric Test</bold>
+     * <p>
+     * <bold>Subtype: multiple groups </bold>
+     * <p>
+     *
+     * @param path_csv_file      load data
+     * @param significance_level Probability of rejecting a null hypothesis when it is true.
+     *                           Also known as confidence level or Type I error (false positive)
+     * @return Map object response
+     */
+    public static Map ANOVA(String path_csv_file, double significance_level) {
+        return getMap(path_csv_file, "anova/" + significance_level);
+    }
+
+    /**
+     * <bold>ANOVA WITHIN CASES</bold>
+     * Tests the null hypothesis that the means of the results of two or more groups are the same. For this, the test
+     * analyzes the variation between samples as well as their inner variation with the variance. The statistic of the ANOVA test, is estimated by the f-distribution.
+     * <p>
+     * <bold>Type:Parametric Test</bold>
+     * <p>
+     * <bold>Subtype: multiple groups</bold>
+     * <p>
+     *
+     * @param path_csv_file      load data
+     * @param significance_level Probability of rejecting a null hypothesis when it is true.
+     *                           Also known as confidence level or Type I error (false positive)
+     * @return Map object response
+     */
+    public static Map ANOVA_WITHIN(String path_csv_file, double significance_level) {
+        return getMap(path_csv_file, "anova-within/" + significance_level);
+    }
+
+    /**
+     * <bold>Bonferroni</bold>
+     * Once evidence of the existence of significant differences between the means of the algorithms is achieved,
+     * thanks to the variance analysis of ANOVA, it is possible to proceed with the POST-HOC test of Bonferroni in order to determine the discrepancies between all the samples, comparing the means of all the algorithms. Each p-value associated with the hypothesis Hi is compared taking an α adjusted to all the comparisons: pi<αm, where K is the number of algorithms and m is the number of comparisons: m=K∗(K−1)2
+     * <p>
+     * <bold>Type:Parametric Test</bold>
+     * <p>
+     * <bold>Subtype: multiple groups</bold>
+     * <p>
+     *
+     * @param path_csv_file      load data
+     * @param significance_level Probability of rejecting a null hypothesis when it is true.
+     *                           Also known as confidence level or Type I error (false positive)
+     * @return Map object response
+     */
+    @Deprecated
+    public static Map BONFERRONI_DUNN(String path_csv_file, double significance_level) {
+        return getMap(path_csv_file, "bonferroni/" + significance_level);
+    }
+
+    /**
      * <bold>Friedman</bold>
      * This test makes comparisons and assigns rankings to each data set. The statistic follows a chis-quared
      * distribution with K−1 degrees of freedom, being K the number of related variables (or number of algorithms).
@@ -224,6 +282,7 @@ public class Client {
      * <bold>Subtype: Post-hoc Test</bold>
      * <p>
      * <h1>it does not work</h1>
+     *
      * @param path_csv_file      load data
      * @param significance_level Probability of rejecting a null hypothesis when it is true.
      *                           Also known as confidence level or Type I error (false positive)

@@ -8,7 +8,8 @@ public class Main {
         System.out.println("Friedman: " + Client.FRIEDMAN(path, Client.SIGNIFICANCE_LEVEL[3]));
         System.out.println("FriedmanA: " + Client.FRIEDMAN_ALIGNED_RANK(path, Client.SIGNIFICANCE_LEVEL[3]));
 
-        System.out.println("SHAFTER: " + Client.SHAFFTER(path, Client.SIGNIFICANCE_LEVEL[3]));
+        System.out.println("ANOVA: " + Client.ANOVA(path, Client.SIGNIFICANCE_LEVEL[3]));
+        System.out.println("ANOVA WITHIN CASES: " + Client.ANOVA_WITHIN(path, Client.SIGNIFICANCE_LEVEL[3]));
 
 
     }
