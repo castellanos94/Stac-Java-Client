@@ -37,7 +37,7 @@ public class Client {
      *                           Also known as confidence level or Type I error (false positive)
      * @return Map object response
      */
-    public static Map AGOSTINO(String path_csv_file, double significance_level) {
+    public static Map<String, Object> AGOSTINO(String path_csv_file, double significance_level) {
         String end_point = "agostino/" + significance_level;
         return getMap(path_csv_file, end_point);
     }
@@ -56,7 +56,7 @@ public class Client {
      *                           Also known as confidence level or Type I error (false positive)
      * @return Map object response
      */
-    public static Map SHAPIRO(String path_csv_file, double significance_level) {
+    public static Map<String, Object> SHAPIRO(String path_csv_file, double significance_level) {
         String end_point = "shapiro/" + significance_level;
         return getMap(path_csv_file, end_point);
     }
@@ -76,7 +76,7 @@ public class Client {
      *                           Also known as confidence level or Type I error (false positive)
      * @return Map object response
      */
-    public static Map KOLMOGOROV(String path_csv_file, double significance_level) {
+    public static Map<String, Object> KOLMOGOROV(String path_csv_file, double significance_level) {
         String end_point = "kolmogorov/" + significance_level;
         return getMap(path_csv_file, end_point);
     }
@@ -96,7 +96,7 @@ public class Client {
      *                           Also known as confidence level or Type I error (false positive)
      * @return Map object response
      */
-    public static Map ANOVA(String path_csv_file, double significance_level) {
+    public static Map<String, Object> ANOVA(String path_csv_file, double significance_level) {
         return getMap(path_csv_file, "anova/" + significance_level);
     }
 
@@ -115,7 +115,7 @@ public class Client {
      *                           Also known as confidence level or Type I error (false positive)
      * @return Map object response
      */
-    public static Map ANOVA_WITHIN(String path_csv_file, double significance_level) {
+    public static Map<String, Object> ANOVA_WITHIN(String path_csv_file, double significance_level) {
         return getMap(path_csv_file, "anova-within/" + significance_level);
     }
 
@@ -135,8 +135,8 @@ public class Client {
      *                           Also known as confidence level or Type I error (false positive)
      * @return Map object response
      */
-    public static Map FRIEDMAN(String path_csv_file, double significance_level) {
-        return getMap(path_csv_file, "friedman/finner_multitest/" + significance_level);
+    public static Map<String, Object> FRIEDMAN(String path_csv_file, double significance_level, POST_HOC post_hoc) {
+        return getMap(path_csv_file, "friedman/" + post_hoc + "/" + significance_level);
     }
 
     /**
@@ -154,8 +154,8 @@ public class Client {
      *                           Also known as confidence level or Type I error (false positive)
      * @return Map object response
      */
-    public static Map FRIEDMAN_ALIGNED_RANK(String path_csv_file, double significance_level) {
-        return getMap(path_csv_file, "friedman-aligned-ranks/finner_multitest/" + significance_level);
+    public static Map<String, Object> FRIEDMAN_ALIGNED_RANK(String path_csv_file, double significance_level, POST_HOC post_hoc) {
+        return getMap(path_csv_file, "friedman-aligned-ranks/" + post_hoc + "/" + significance_level);
     }
 
 
@@ -174,104 +174,8 @@ public class Client {
      *                           Also known as confidence level or Type I error (false positive)
      * @return Map object response
      */
-    public static Map QUADE(String path_csv_file, double significance_level) {
-        return getMap(path_csv_file, "quade/finner_multitest/" + significance_level);
-
-    }
-
-    /**
-     * <bold>Nemenyi</bold>
-     * <p>
-     * <bold>Type: Non Parametric Test</bold>
-     * <p>
-     * <bold>Subtype: Post-hoc Test</bold>
-     * <p>
-     *
-     * @param path_csv_file      load data
-     * @param significance_level Probability of rejecting a null hypothesis when it is true.
-     *                           Also known as confidence level or Type I error (false positive)
-     * @return Map object response
-     */
-    public static Map NEMENYI(String path_csv_file, double significance_level) {
-        return getMap(path_csv_file, "quade/nemenyi_multitest/" + significance_level);
-    }
-
-    /**
-     * <bold>Holm</bold>
-     * It compares each pi (starting from the most significant or the lowest) with: α(K−i), where i∈[1,K−1].
-     * If the hypothesis is rejected the test continues the comparisons. When an hypothesis is accepted, all the other hypothesis are accepted as well. It is better (more power) than Bonferroni-Dunn test, because it controls the FWER (familywise error rate), which is the probability of committing one or more type I errors among all hypothesis
-     * <p>
-     * <bold>Type: Non Parametric Test</bold>
-     * <p>
-     * <bold>Subtype: Post-hoc Test</bold>
-     * <p>
-     *
-     * @param path_csv_file      load data
-     * @param significance_level Probability of rejecting a null hypothesis when it is true.
-     *                           Also known as confidence level or Type I error (false positive)
-     * @return Map object response
-     */
-    public static Map HOLM(String path_csv_file, double significance_level) {
-        return getMap(path_csv_file, "quade/holm_multitest/" + significance_level);
-    }
-
-    /**
-     * <bold>Finner</bold>
-     * Finner's test is similar to Holm's but each p-value associated with the hypothesis Hi is compared with:
-     * pi≤1−(1−α)(K−1)i, where i∈[1,K−1]. It is more powerful than Bonferroni-Dunn, Holm, Hochberg and Li (only in some cases).
-     * <p>
-     * <bold>Type: Non Parametric Test</bold>
-     * <p>
-     * <bold>Subtype: Post-hoc Test</bold>
-     * <p>
-     *
-     * @param path_csv_file      load data
-     * @param significance_level Probability of rejecting a null hypothesis when it is true.
-     *                           Also known as confidence level or Type I error (false positive)
-     * @return Map object response
-     */
-    public static Map FINNER(String path_csv_file, double significance_level) {
-        return getMap(path_csv_file, "quade/finner_multitest/" + significance_level);
-    }
-
-    /**
-     * <bold>Hochberg</bold>
-     * It compares in the opposite direction to Holm. As soon as an acceptable hypothesis is found, all the other
-     * hypothesis are accepted. It is better (more power) than Holm test, but the differences between them are small in practice.
-     * <p>
-     * <bold>Type: Non Parametric Test</bold>
-     * <p>
-     * <bold>Subtype: Post-hoc Test</bold>
-     * <p>
-     *
-     * @param path_csv_file      load data
-     * @param significance_level Probability of rejecting a null hypothesis when it is true.
-     *                           Also known as confidence level or Type I error (false positive)
-     * @return Map object response
-     */
-    public static Map HOCHBERG(String path_csv_file, double significance_level) {
-        return getMap(path_csv_file, "quade/hochberg_multitest/" + significance_level);
-    }
-
-    /**
-     * <bold>Shaffer</bold>
-     * This test is like Holm's but each p-value associated with the hypothesis Hi is compared as pi≤αti, where ti is
-     * the maximum number of possible hypothesis assuming that the previous (j−1) hypothesis have been rejected.
-     * <p>
-     * <bold>Type: Non Parametric Test</bold>
-     * <p>
-     * <bold>Subtype: Post-hoc Test</bold>
-     * <p>
-     * <h1>it does not work</h1>
-     *
-     * @param path_csv_file      load data
-     * @param significance_level Probability of rejecting a null hypothesis when it is true.
-     *                           Also known as confidence level or Type I error (false positive)
-     * @return Map object response
-     */
-    @Deprecated
-    public static Map SHAFFTER(String path_csv_file, double significance_level) {
-        return getMap(path_csv_file, "friedman/shaffer_multitest/" + significance_level);
+    public static Map<String, Object> QUADE(String path_csv_file, double significance_level, POST_HOC post_hoc) {
+        return getMap(path_csv_file, "quade/" + post_hoc + "/" + significance_level);
     }
 
     private static String transform_to_json(String path_csv_file) throws IOException {
@@ -285,7 +189,7 @@ public class Client {
     }
 
 
-    private static Map getMap(String path_csv_file, String end_point) {
+    private static Map<String, Object> getMap(String path_csv_file, String end_point) {
         try {
             String content = transform_to_json(path_csv_file);
             HttpPost request = new HttpPost(BASE_URL + end_point);
@@ -294,7 +198,7 @@ public class Client {
             request.setEntity(params);
 
             HttpResponse response = httpClient.execute(request);
-            return (Map) gson.fromJson(EntityUtils.toString(response.getEntity()), Object.class);
+            return (Map<String, Object>) gson.fromJson(EntityUtils.toString(response.getEntity()), Object.class);
 
         } catch (IOException e) {
             e.printStackTrace();
