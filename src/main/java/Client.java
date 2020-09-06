@@ -119,25 +119,6 @@ public class Client {
         return getMap(path_csv_file, "anova-within/" + significance_level);
     }
 
-    /**
-     * <bold>Bonferroni</bold>
-     * Once evidence of the existence of significant differences between the means of the algorithms is achieved,
-     * thanks to the variance analysis of ANOVA, it is possible to proceed with the POST-HOC test of Bonferroni in order to determine the discrepancies between all the samples, comparing the means of all the algorithms. Each p-value associated with the hypothesis Hi is compared taking an α adjusted to all the comparisons: pi<αm, where K is the number of algorithms and m is the number of comparisons: m=K∗(K−1)2
-     * <p>
-     * <bold>Type:Parametric Test</bold>
-     * <p>
-     * <bold>Subtype: multiple groups</bold>
-     * <p>
-     *
-     * @param path_csv_file      load data
-     * @param significance_level Probability of rejecting a null hypothesis when it is true.
-     *                           Also known as confidence level or Type I error (false positive)
-     * @return Map object response
-     */
-    @Deprecated
-    public static Map BONFERRONI_DUNN(String path_csv_file, double significance_level) {
-        return getMap(path_csv_file, "bonferroni/" + significance_level);
-    }
 
     /**
      * <bold>Friedman</bold>

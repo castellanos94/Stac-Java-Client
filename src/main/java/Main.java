@@ -1,3 +1,5 @@
+import java.util.Map;
+
 public class Main {
     public static void main(String[] args) {
         String path = "src/main/resources/Toxina-Friedman-min3.csv";
@@ -9,8 +11,9 @@ public class Main {
         System.out.println("FriedmanA: " + Client.FRIEDMAN_ALIGNED_RANK(path, Client.SIGNIFICANCE_LEVEL[3]));
 
         System.out.println("ANOVA: " + Client.ANOVA(path, Client.SIGNIFICANCE_LEVEL[3]));
-        System.out.println("ANOVA WITHIN CASES: " + Client.ANOVA_WITHIN(path, Client.SIGNIFICANCE_LEVEL[3]));
-
+        System.out.println("ANOVA WITHIN CASES: ");
+        Map map = Client.ANOVA_WITHIN(path, Client.SIGNIFICANCE_LEVEL[0]);
+        map.forEach((k, v) -> System.out.println(k + " : " + v));
 
     }
 }
