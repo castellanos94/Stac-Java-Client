@@ -36,9 +36,6 @@ buildNumber.properties
 !/.mvn/wrapper/maven-wrapper.jar
 #vscode
 .vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+.settings/*
 #idea
 .idea/*
