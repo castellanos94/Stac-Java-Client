@@ -1,4 +1,6 @@
 
+import client.POST_HOC;
+import client.StacConsumer;
 import model.Assistant;
 
 public class Main {

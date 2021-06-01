@@ -1,3 +1,4 @@
+package client;
 public enum POST_HOC {
     NEMENYI,
     /**
