@@ -6,6 +6,12 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+
+import model.Anova;
+import model.Assistant;
+import model.NonParametricTestAll;
+import model.ParametricTest;
+import model.PostHocResult;
 import tech.tablesaw.api.Table;
 import tech.tablesaw.columns.Column;
 
@@ -37,11 +43,11 @@ public class StacConsumer {
      * @param significance_level Probability of rejecting a null hypothesis when it
      *                           is true. Also known as confidence level or Type I
      *                           error (false positive)
-     * @return Map object response
+     * @return ParametricTest response
      */
-    public static Map<String, Object> AGOSTINO(String path_csv_file, double significance_level) {
+    public static PostHocResult AGOSTINO(String path_csv_file, double significance_level) {
         String end_point = "agostino/" + significance_level;
-        return getMap(path_csv_file, end_point);
+        return PostHocResult.fromJsonString(getResponse(path_csv_file, end_point));
     }
 
     /**
@@ -59,11 +65,11 @@ public class StacConsumer {
      * @param significance_level Probability of rejecting a null hypothesis when it
      *                           is true. Also known as confidence level or Type I
      *                           error (false positive)
-     * @return Map object response
+     * @return ParametricTest response
      */
-    public static Map<String, Object> SHAPIRO(String path_csv_file, double significance_level) {
+    public static PostHocResult SHAPIRO(String path_csv_file, double significance_level) {
         String end_point = "shapiro/" + significance_level;
-        return getMap(path_csv_file, end_point);
+        return PostHocResult.fromJsonString(getResponse(path_csv_file, end_point));
     }
 
     /**
@@ -80,11 +86,10 @@ public class StacConsumer {
      * @param significance_level Probability of rejecting a null hypothesis when it
      *                           is true. Also known as confidence level or Type I
      *                           error (false positive)
-     * @return Map object response
+     * @return ParametricTest response
      */
-    public static Map<String, Object> KOLMOGOROV(String path_csv_file, double significance_level) {
-        String end_point = "kolmogorov/" + significance_level;
-        return getMap(path_csv_file, end_point);
+    public static ParametricTest KOLMOGOROV(String path_csv_file, double significance_level) {
+        return PostHocResult.fromJsonString(getResponse(path_csv_file, "kolmogorov/" + significance_level));
     }
 
     /**
@@ -104,10 +109,10 @@ public class StacConsumer {
      * @param significance_level Probability of rejecting a null hypothesis when it
      *                           is true. Also known as confidence level or Type I
      *                           error (false positive)
-     * @return Map object response
+     * @return Anova response
      */
-    public static Map<String, Object> ANOVA(String path_csv_file, double significance_level) {
-        return getMap(path_csv_file, "anova/" + significance_level);
+    public static Anova ANOVA(String path_csv_file, double significance_level) {
+        return Anova.fromJsonString(getResponse(path_csv_file, "anova/" + significance_level));
     }
 
     /**
@@ -127,10 +132,10 @@ public class StacConsumer {
      * @param significance_level Probability of rejecting a null hypothesis when it
      *                           is true. Also known as confidence level or Type I
      *                           error (false positive)
-     * @return Map object response
+     * @return Anova response
      */
-    public static Map<String, Object> ANOVA_WITHIN(String path_csv_file, double significance_level) {
-        return getMap(path_csv_file, "anova-within/" + significance_level);
+    public static Anova ANOVA_WITHIN(String path_csv_file, double significance_level) {
+        return Anova.fromJsonString(getResponse(path_csv_file, "anova-within/" + significance_level));
     }
 
     /**
@@ -150,10 +155,11 @@ public class StacConsumer {
      *                           is true. Also known as confidence level or Type I
      *                           error (false positive)
      * @param post_hoc           Post-hoc multiple comparison
-     * @return Map object response
+     * @return Non Parametric Test Response
      */
-    public static Map<String, Object> FRIEDMAN(String path_csv_file, double significance_level, POST_HOC post_hoc) {
-        return getMap(path_csv_file, "friedman/" + post_hoc + "/" + significance_level);
+    public static NonParametricTestAll FRIEDMAN(String path_csv_file, double significance_level, POST_HOC post_hoc) {
+        return NonParametricTestAll
+                .fromJsonString(getResponse(path_csv_file, "friedman/" + post_hoc + "/" + significance_level));
     }
 
     /**
@@ -172,11 +178,12 @@ public class StacConsumer {
      *                           is true. Also known as confidence level or Type I
      *                           error (false positive)
      * @param post_hoc           Post-hoc multiple comparison
-     * @return Map object response
+     * @return Non Parametric Test Response
      */
-    public static Map<String, Object> FRIEDMAN_ALIGNED_RANK(String path_csv_file, double significance_level,
+    public static NonParametricTestAll FRIEDMAN_ALIGNED_RANK(String path_csv_file, double significance_level,
             POST_HOC post_hoc) {
-        return getMap(path_csv_file, "friedman-aligned-ranks/" + post_hoc + "/" + significance_level);
+        return NonParametricTestAll.fromJsonString(
+                getResponse(path_csv_file, "friedman-aligned-ranks/" + post_hoc + "/" + significance_level));
     }
 
     /**
@@ -196,10 +203,11 @@ public class StacConsumer {
      *                           is true. Also known as confidence level or Type I
      *                           error (false positive)
      * @param post_hoc           Post-hoc multiple comparison
-     * @return Map object response
+     * @return Non Parametric Test Response
      */
-    public static Map<String, Object> QUADE(String path_csv_file, double significance_level, POST_HOC post_hoc) {
-        return getMap(path_csv_file, "quade/" + post_hoc + "/" + significance_level);
+    public static NonParametricTestAll QUADE(String path_csv_file, double significance_level, POST_HOC post_hoc) {
+        return NonParametricTestAll
+                .fromJsonString(getResponse(path_csv_file, "quade/" + post_hoc + "/" + significance_level));
     }
 
     /**
@@ -224,6 +232,18 @@ public class StacConsumer {
         return getMap(path_csv_file, end_point);
     }
 
+    /**
+     * Assistant that estimate the best fitted statistical test for the data
+     * provided by the user. The decision process takes into account the following
+     * data:
+     * 
+     * @param path_csv_file load data
+     * @return Assistant model
+     */
+    public static Assistant assistMe(String path_csv_file) {
+        return Assistant.fromJsonString(getResponse(path_csv_file, "assistant"));
+    }
+
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private static String transform_to_json(String path_csv_file) throws IOException {
         Table table = Table.read().csv(path_csv_file);
@@ -232,7 +252,6 @@ public class StacConsumer {
             data.put(c.name(), new ArrayList(c.asList()));
         }
         return gson.toJson(data);
-
     }
 
     @SuppressWarnings("unchecked")
@@ -253,4 +272,18 @@ public class StacConsumer {
         return null;
     }
 
+    private static String getResponse(String path_csv_file, String end_point) {
+        try {
+            String content = transform_to_json(path_csv_file);
+            HttpPost request = new HttpPost(BASE_URL + end_point);
+            StringEntity params = new StringEntity(content);
+            request.addHeader("content-type", "application/json");
+            request.setEntity(params);
+
+            return EntityUtils.toString(httpClient.execute(request).getEntity());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
