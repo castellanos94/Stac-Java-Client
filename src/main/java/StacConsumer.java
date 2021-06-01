@@ -11,6 +11,7 @@ import model.Anova;
 import model.Assistant;
 import model.NonParametricTestAll;
 import model.ParametricTest;
+import model.ParametricTestTwoGroups;
 import model.PostHocResult;
 import tech.tablesaw.api.Table;
 import tech.tablesaw.columns.Column;
@@ -21,7 +22,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Example of consume web service from STAC Web Platform
+ * Example of consume web service from STAC Web Platform. <br>
+ * Null hypothesis (H0): The medians of the differences between the two group
+ * samples are equal. <br>
+ * If ParametricTest.getResult() == 1 then H0 is rejected otherwise H0 is
+ * accepted
+ * 
+ * @see ParametricTest
  */
 public class StacConsumer {
     public static final double[] SIGNIFICANCE_LEVEL = { 0.10, 0.05, 0.02, 0.01, 0.005, 0.001 };
@@ -222,14 +229,57 @@ public class StacConsumer {
      * <p>
      *
      * @param path_csv_file      load data
+     * @param firstGroup
+     * @param secondGroup
      * @param significance_level Probability of rejecting a null hypothesis when it
      *                           is true. Also known as confidence level or Type I
      *                           error (false positive)
-     * @return Map object response
+     * @return Parametric Test Response
      */
-    public static Map<String, Object> WILCOXON(String path_csv_file, double significance_level) {
+    public static ParametricTestTwoGroups WILCOXON(String path_csv_file, String firstGroup, String secondGroup,
+            double significance_level) {
         String end_point = "wilcoxon/" + significance_level;
-        return getMap(path_csv_file, end_point);
+        return ParametricTestTwoGroups.fromJsonString(getResponse(path_csv_file, firstGroup, secondGroup, end_point));
+    }
+
+    /**
+     * <bold>T-test paired</bold>
+     * <p>
+     * <bold>Type: Parametric Test Two groups</bold>
+     * <p>
+     *
+     * @param path_csv_file      load data
+     * @param firstGroup
+     * @param secondGroup
+     * @param significance_level Probability of rejecting a null hypothesis when it
+     *                           is true. Also known as confidence level or Type I
+     *                           error (false positive)
+     * @return Parametric Test Response
+     */
+    public static ParametricTestTwoGroups T_TESTPaired(String path_csv_file, String firstGroup, String secondGroup,
+            double significance_level) {
+        String end_point = "ttest/" + significance_level;
+        return ParametricTestTwoGroups.fromJsonString(getResponse(path_csv_file, firstGroup, secondGroup, end_point));
+    }
+
+    /**
+     * <bold>T-test unpaired</bold>
+     * <p>
+     * <bold>Type: Parametric Test Two groups</bold>
+     * <p>
+     *
+     * @param path_csv_file      load data
+     * @param firstGroup
+     * @param secondGroup
+     * @param significance_level Probability of rejecting a null hypothesis when it
+     *                           is true. Also known as confidence level or Type I
+     *                           error (false positive)
+     * @return Parametric Test Response
+     */
+    public static ParametricTestTwoGroups T_TESTUnpaired(String path_csv_file, String firstGroup, String secondGroup,
+            double significance_level) {
+        String end_point = "ttest-ind/" + significance_level;
+        return ParametricTestTwoGroups.fromJsonString(getResponse(path_csv_file, firstGroup, secondGroup, end_point));
     }
 
     /**
@@ -254,24 +304,6 @@ public class StacConsumer {
         return gson.toJson(data);
     }
 
-    @SuppressWarnings("unchecked")
-    private static Map<String, Object> getMap(String path_csv_file, String end_point) {
-        try {
-            String content = transform_to_json(path_csv_file);
-            HttpPost request = new HttpPost(BASE_URL + end_point);
-            StringEntity params = new StringEntity(content);
-            request.addHeader("content-type", "application/json");
-            request.setEntity(params);
-
-            HttpResponse response = httpClient.execute(request);
-            return (Map<String, Object>) gson.fromJson(EntityUtils.toString(response.getEntity()), Object.class);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     private static String getResponse(String path_csv_file, String end_point) {
         try {
             String content = transform_to_json(path_csv_file);
@@ -285,5 +317,42 @@ public class StacConsumer {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private static String getResponse(String path_csv_file, String firstGroup, String secondGroup, String end_point) {
+        try {
+            String content = transform_to_json(path_csv_file, firstGroup, secondGroup);
+            HttpPost request = new HttpPost(BASE_URL + end_point);
+            StringEntity params = new StringEntity(content);
+            request.addHeader("content-type", "application/json");
+            request.setEntity(params);
+
+            return EntityUtils.toString(httpClient.execute(request).getEntity());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    private static String transform_to_json(String path_csv_file, String firstGroup, String secondGroup)
+            throws IOException {
+        Table table = Table.read().csv(path_csv_file);
+        HashMap<String, ArrayList> data = new HashMap<>();
+        int count = 0;
+        for (Column c : table.columns()) {
+            if (c.name().equals(firstGroup)) {
+                data.put("group1", new ArrayList(c.asList()));
+                count++;
+            }
+            if (c.name().equals(secondGroup)) {
+                data.put("group2", new ArrayList(c.asList()));
+                count++;
+            }
+            if (count == 2) {
+                break;
+            }
+        }
+        return gson.toJson(data);
     }
 }

@@ -9,6 +9,11 @@ public class Main {
         System.out.println(assistant);
         System.out.println("Friedman: " + StacConsumer.FRIEDMAN(path, 0.05, POST_HOC.HOLM));
         System.out.println("Kolmogorov-Smirnov: " + StacConsumer.KOLMOGOROV(path, 0.05));
+        System.out.println("ANOVA: " + StacConsumer.ANOVA(path, 0.05));
+        System.out.println("Wilcoxon: " + StacConsumer.WILCOXON(path,"Cerebro","Corazon", 0.05));
+
+        System.out.println("T-Test: " + StacConsumer.T_TESTPaired(path,"Cerebro","Corazon", 0.05));
+        System.out.println("T-Test unpaired: " + StacConsumer.T_TESTUnpaired(path,"Cerebro","Corazon", 0.05));
 
         path = "src/main/resources/dtlz1.csv";
         /*System.out.println("Kolmogorov-Smirnov: " + StacConsumer.KOLMOGOROV(path, StacConsumer.SIGNIFICANCE_LEVEL[3]));
@@ -21,7 +26,6 @@ public class Main {
         System.out.println("QUADE-FINNER: " + StacConsumer.QUADE(path, StacConsumer.SIGNIFICANCE_LEVEL[0], POST_HOC.FINNER));
         System.out.println("QUADE-HOCHBERG: " + StacConsumer.QUADE(path, StacConsumer.SIGNIFICANCE_LEVEL[0], POST_HOC.HOCHBERG));
 
-        System.out.println("ANOVA: " + StacConsumer.ANOVA(path, StacConsumer.SIGNIFICANCE_LEVEL[3]));
         System.out.println("ANOVA WITHIN CASES: ");
         Map<String, Object> map = StacConsumer.ANOVA_WITHIN(path, StacConsumer.SIGNIFICANCE_LEVEL[0]);
         map.forEach((k, v) -> System.out.println(k + " : " + v));*/
