@@ -8,7 +8,7 @@ public class Main {
         String path = "src/main/resources/Toxina-Friedman-min3.csv";
         Assistant assistant = StacConsumer.assistMe(path);
         System.out.println(assistant);
-        System.out.println("Friedman: " + StacConsumer.FRIEDMAN(path, 0.05, POST_HOC.HOLM));
+        System.out.println("Friedman: " + StacConsumer.FRIEDMAN(path, 0.05, POST_HOC.FINNER));
         System.out.println("Kolmogorov-Smirnov: " + StacConsumer.KOLMOGOROV(path, 0.05));
         System.out.println("ANOVA: " + StacConsumer.ANOVA(path, 0.05));
         System.out.println("Wilcoxon: " + StacConsumer.WILCOXON(path, "Cerebro", "Corazon", 0.05));

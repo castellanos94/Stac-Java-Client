@@ -7,7 +7,7 @@ import com.google.gson.Gson;
 
 public class PostHocResult extends ParametricTest {
     private String control;
-    private Integer[] result;
+    private BigDecimal[] result;
     private String[] comparisons;
     private BigDecimal[] p_value;
     private BigDecimal[] statistic;
@@ -31,7 +31,7 @@ public class PostHocResult extends ParametricTest {
     }
 
     @Override
-    public Integer[] getResult() {
+    public BigDecimal[] getResult() {
         return result;
     }
 
