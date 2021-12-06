@@ -1,4 +1,5 @@
 package client;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.apache.http.client.HttpClient;
@@ -238,6 +239,32 @@ public class StacConsumer {
     public static ParametricTestTwoGroups WILCOXON(String path_csv_file, String firstGroup, String secondGroup,
             double significance_level) {
         String end_point = "wilcoxon/" + significance_level;
+        return ParametricTestTwoGroups.fromJsonString(getResponse(path_csv_file, firstGroup, secondGroup, end_point));
+    }
+
+    /**
+     * <bold>Mann-Whitney-U</bold>
+     * <p>
+     * Unpaired data. The medians of the differences between the two group samples
+     * are equal.
+     * <p>
+     * <bold>Type: Non Parametric Test Two groups</bold>
+     * <p>
+     * Mann, H. B., Whitney, D. R. (1947). On a test of whether one of two random
+     * variables is stochastically larger than the other. The annals of mathematical
+     * statistics, 50-60.
+     *
+     * @param path_csv_file      load data
+     * @param firstGroup
+     * @param secondGroup
+     * @param significance_level Probability of rejecting a null hypothesis when it
+     *                           is true. Also known as confidence level or Type I
+     *                           error (false positive)
+     * @return Parametric Test Response
+     */
+    public static ParametricTestTwoGroups MANN_WHITNEY_U(String path_csv_file, String firstGroup, String secondGroup,
+            double significance_level) {
+        String end_point = "mannwhitneyu/" + significance_level;
         return ParametricTestTwoGroups.fromJsonString(getResponse(path_csv_file, firstGroup, secondGroup, end_point));
     }
 
