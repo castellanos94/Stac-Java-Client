@@ -11,7 +11,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <tablesaw.version>0.38.1</tablesaw.version>
+        <tablesaw.version>0.42.0</tablesaw.version>
     </properties>
     <dependencies>
         <dependency>
